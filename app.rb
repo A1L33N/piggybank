@@ -67,12 +67,14 @@ get('/kid') do
   there = Kid.where(whereclause)
 
   if there == []
-    @@message = "We can't find your account.  Ask your parents to login"
+    @@message = "We can't find your account.  Try again."
     redirect '/'
   else
     @@message = ""
     @kid = there.first
+    @title = @kid.account_name
     @transactions = @kid.transactions
+    @chores = @kid.parent.chores
     @requests = @kid.requests
       erb(:kid_info)
   end
@@ -102,39 +104,48 @@ post('/parent/:id/chores') do
   id = params.fetch('id').to_i
   @parent = Parent.find(id)
   description = params.fetch('description')
-  pay = params.fetch('pay').to_f
-  chore = Chore.create({:description => description, :pay => pay, :kid_id => nil, :parent_id => id, :available => true, :complete => false})
+  pay = params.fetch('pay')
+  if pay.nil?
+    pay = 0
+  end
+  chore = Chore.create({:description => description, :pay => pay, :parent_id => id, :available => true, :complete => false})
   redirect back
 end
 
-get('/kid_chores/:id') do
-  id = params.fetch('id').to_i
-  @kid = Kid.find(id)
-  @parent = @kid.parent
-  @chores = @parent.chores
-  erb(:kid_chores)
-end
+# get('/kid_chores/:id') do
+#   id = params.fetch('id').to_i
+#   @kid = Kid.find(id)
+#   @parent = @kid.parent
+#   @chores = @parent.chores
+#   erb(:kid_chores)
+# end
 
-patch('/parent/:id/assign_chores') do
-  chore_id = params.fetch('chore_id').to_i
+get('/kid/:kid_id/chore/:chore_id/signup') do
+  chore_id = params.fetch('chore_id')
   chore = Chore.find(chore_id)
-  kid_id = params.fetch('kid_id').to_i
+  kid_id = params.fetch('kid_id')
   chore.update({:kid_id => kid_id, :available => false})
   redirect back
 end
 
-patch('/parent/:id/complete_chore') do
-  chore_id = params.fetch('chore_id').to_i
+get('/kid/:kid_id/chore/:chore_id/done') do
+  chore_id = params.fetch('chore_id').to_i()
+  kid_id = params.fetch('kid_id').to_i()
   chore = Chore.find(chore_id)
   chore.update({:complete => true})
-  redirect back
+  @@message = ""
+  @kid = Kid.find(kid_id)
+  @title = @kid.account_name
+  @transactions = @kid.transactions
+  @chores = @kid.parent.chores
+  erb(:kid_info)
 end
 
-patch('/parent/:id/pay_kid') do
-  amount = params.fetch('amount').to_f
-  kid_id = params.fetch('kid_id')
+get('/parent/:chore_id/pay_kid') do
   chore_id = params.fetch('chore_id').to_i
   chore = Chore.find(chore_id)
+  kid_id = chore.kid.id.to_i
+  amount = chore.pay.to_f
   description = chore.description
   new_transaction = Transaction.create({:amount => amount, :transaction_type => 'deposit', :description => description, :date => Date.today, :kid_id => kid_id })
   chore.destroy
