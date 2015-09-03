@@ -84,7 +84,10 @@ post('/kids/:id') do
   id = params.fetch('id').to_i
   kid = Kid.find(id)
   transaction_type = params.fetch('transaction_type')
-  amount = params.fetch('amount').to_f
+  amount = params.fetch('amount').to_f().abs
+   if transaction_type == 'withdrawal'
+      amount = amount * -1
+    end
   description = params.fetch('description')
   date = params.fetch('date')
   transaction = Transaction.create(:transaction_type => transaction_type, :kid_id => kid.id, :amount => amount, :date => date, :description => description)
@@ -97,6 +100,7 @@ get('/parent/:id/chores') do
   id = params.fetch('id').to_i
   @parent = Parent.find(id)
   @chores = @parent.chores
+  @title = @parent.bank_name + " Chores"
   erb(:chores)
 end
 
