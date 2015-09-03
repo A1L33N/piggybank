@@ -171,9 +171,14 @@ end
 
 post('/parent/:id/request') do
   kid_id = params.fetch('kid_id').to_i
-  transaction_type = params.fetch('transaction_type')
-  description = params.fetch('description')
   amount = params.fetch('amount').to_f
+  transaction_type = params.fetch('transaction_type')
+  if transaction_type.=="withdrawal"
+    amount = amount.abs.*(-1)
+  else
+    amount
+  end
+  description = params.fetch('description')
   date = Date.today
   new_transaction = Transaction.create({:amount => amount, :transaction_type => transaction_type, :description => description, :date => date, :kid_id => kid_id })
   request_id = params.fetch('request_id').to_i
