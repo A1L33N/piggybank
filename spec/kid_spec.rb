@@ -25,4 +25,10 @@ describe(Kid) do
     end
   end
 
+  # it('capitalizes all letters of a kid name') do
+  #   kid = Kid.create({:name => 'joan smith', :account_name => 'joan bank'})
+  #   expect(kid.name).to(eq('Joan Smith'))
+  # end
+
+
 end
