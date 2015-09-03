@@ -13,17 +13,18 @@
 
   </head>
   <body>
-    <div id="nav_wrapper">
-      <span class="title"><%= @title %></span>
-        <nav id="nav">
-
-          <button name="button"><a href="/">Kids Home</a></button>
-          <button name="button"><a href="/parents">Parent Login</a></button>
-        </nav>
-    </div>
-
-
     <div id="wrapper">
+        <header>
+          <span class="title"><%= @title %></span>
+            <nav id="nav">
+
+              <button name="button"><a href="/">Kids Home</a></button>
+              <button name="button"><a href="/parents">Parent Login</a></button>
+            </nav>
+        </header>
+
+
+
 
      <%= yield %>
     </div>
