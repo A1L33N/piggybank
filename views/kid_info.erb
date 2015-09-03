@@ -1,60 +1,9 @@
 <div class="page_frame">
-<h2>You have saved $<%= '%.2f' % @kid.balance %>!</h2>
-
-<h3 class="kid_font">Transaction History</h3>
-
-<<<<<<< HEAD
-<table class="table">
-  <thead>
-    <tr>
-       <th>Date</th>
-       <th>Type</th>
-       <th>Description</th>
-       <th>Amount</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @transactions.each() do |transaction| %>
-  <tr>
-     <td><%= transaction.date %></td>
-     <td><%= transaction.transaction_type %></td>
-     <td><%= transaction.description %></td>
-     <td class="money"><%= '%.2f' % transaction.amount %></td>
-  </tr>
-    <% end %>
-</tbody>
-</table>
-
-<h3 class="kid_font">Chores</h3>
-
-<!-- <h1>Here are <%= @kid.parent.bank_name %> available chores</h1>
-
-<% if @chores.any? %>
-
-  <% @chores.each() do |chore| %>
-    <% if chore.available() %>
-    <li><%=chore.description%>&nbsp;&nbsp;&nbsp;&nbsp;<%=chore.pay%></li>
-
-    <form  action='/parent/<%=@kid.parent.id%>/assign_chores' method="post">
-      <input type="hidden" name="_method" value="patch">
-      <input type="hidden" name="kid_id" value="<%=@kid.id%>">
-      <input type="hidden" name="chore_id" value="<%=chore.id%>">
-      <button type="submit">Sign up for this chore</button>
-
-    </form></li>
+<h2>There is <span class="pig_total"> $<%= '%.2f' % @kid.balance %></span> in your Piggybank!</h2>
 
 
 
-    <% end %>
-  <%end%>
-<% else %>
-  <h3>No available chores</h3>
-<% end %>
-
-
-<h2>Here are the chores you have signed up for, <%=@kid.name %>:</h2> -->
-
-
+<h3 class="kid_font">List of Chores</h3>
 <table class="table">
   <thead>
     <tr>
@@ -75,15 +24,49 @@
           <% end %>
        </td> -->
      <td class="money"><%= '%.2f' % chore.pay %></td>
-=======
+     <% if (chore.kid_id.nil?) == false && (chore.kid.id.> 0) %>
+     <td class="cell_center"><%= chore.kid.name %></td>
+        <% if (chore.kid_id == @kid.id && chore.complete != true) %>
+            <td class="cell_center"><a href='/kid/<%=@kid.id %>/chore/<%= chore.id %>/done'>I'm Done!</a></td>
+        <% else %>
+             <td class="cell_center"><%= chore.complete %></td>
+        <% end %>
+     <% else %>
+      <td class="cell_center"><a href='/kid/<%=@kid.id %>/chore/<%= chore.id %>/signup'>Sign me up!</a></td>
+    <% end %>
+  </tr>
+    <% end %>
+</tbody>
+</table>
+
+
+
+
+
+
+<h3 class="kid_font">Piggybank History</h3>
+
 <h3>Pending Transactions</h3>
 
 <% if @requests.any?() %>
-<ul>
-  <% @requests.each() do |request| %>
-  <li><%= request.description %>&nbsp;&nbsp;&nbsp;&nbsp; $<%=request.amount %>&nbsp;&nbsp;&nbsp;&nbsp; PENDING </li>
-  <% end %>
-</ul>
+
+  <table class="table">
+    <thead>
+      <tr>
+         <th>Description</th>
+         <th>Amount</th>
+         <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @requests.each() do |request| %>
+    <tr>
+       <td><%= request.description %></td>
+       <td class="money"><%= request.amount %></td>
+       <td class="cell_center">PENDING</td>    </tr>
+      <% end %>
+  </tbody>
+  </table>
 
 <% else %>
 <p> You have no withdrawal or deposit requests</p>
@@ -107,31 +90,28 @@
     <input type="text" name="description"></p>
     <button type='submit'>Add request</button>
   </form>
-
-
-
-<h3>Transaction History</h3>
-
-<ul>
+<table class="table">
+  <thead>
+    <tr>
+       <th>Date</th>
+       <th>Type</th>
+       <th>Description</th>
+       <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
   <% @transactions.each() do |transaction| %>
-  <li><%= transaction.date %>&nbsp;&nbsp;&nbsp;&nbsp;<%= transaction.transaction_type %>&nbsp;&nbsp;&nbsp;&nbsp;$<%= transaction.amount %>&nbsp;&nbsp;&nbsp;&nbsp;<%= transaction.description %></li>
-  <% end %>
-</ul>
->>>>>>> master
-
-
-     <% if (chore.kid_id.nil?) == false && (chore.kid.id.> 0) %>
-     <td class="cell_center"><%= chore.kid.name %></td>
-        <% if (chore.kid_id == @kid.id && chore.complete != true) %>
-            <td class="cell_center"><a href='/kid/<%=@kid.id %>/chore/<%= chore.id %>/done'>I'm Done!</a></td>
-        <% else %>
-             <td class="cell_center"><%= chore.complete %></td>
-        <% end %>
-     <% else %>
-      <td class="cell_center"><a href='/kid/<%=@kid.id %>/chore/<%= chore.id %>/signup'>Sign me up!</a></td>
-    <% end %>
+  <tr>
+     <td><%= transaction.date %></td>
+     <td><%= transaction.transaction_type %></td>
+     <td><%= transaction.description %></td>
+     <td class="money"><%= '%.2f' % transaction.amount %></td>
   </tr>
     <% end %>
 </tbody>
 </table>
+
+
+
+
 </div>

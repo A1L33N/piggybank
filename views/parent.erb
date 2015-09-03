@@ -2,8 +2,20 @@
 <div class="page_frame">
 
   <div class="list_frame">
+    <div class="form_div">
 
 
+    <h3>Add a kid to your bank</h3>
+    <form action="/parents/<%= @parent.id %>" method="post">
+      <input type="text" name="name" placeholder="Enter a kid name">
+      <input type="text" name="account_name" placeholder="Nickname the account">
+      <input type="text" name="beginning_balance" placeholder="Enter beginning balance" >
+      <input type="text" name="goal" placeholder="Enter a savings goal">
+
+      <button type="submit">Add</button>
+    </form>
+    </div>
+    <br> <br>
     <% if @kids.any?() %>
     <table class="table">
       <thead>
@@ -68,22 +80,10 @@
 
 
 
-
-
-  <div class="form_div">
-
-
-  <h3>Add a kid to your bank</h3>
-  <form action="/parents/<%= @parent.id %>" method="post">
-
-    <input type="text" name="name" placeholder="Enter a kid name">
-    <input type="text" name="account_name" placeholder="Nickname the account">
-    <input type="text" name="beginning_balance" placeholder="Enter beginning balance" >
-    <input type="text" name="goal" placeholder="Enter a savings goal">
-
-    <button type="submit">Add</button>
-  </form>
-  </div>
+<br><br><br><br>
+  <button><a href="/parent/<%= @parent.id %>/chores">See Chores</a></button>
 </div>
 
-<a href="/parent/<%= @parent.id %>/chores">Add chores</a>
+<footer>
+  <button class="back_btn"><a href="/parents">Back</a></button>
+</footer>
