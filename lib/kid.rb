@@ -2,6 +2,7 @@ class Kid < ActiveRecord::Base
   belongs_to(:parent)
   has_many(:transactions)
   has_many(:chores)
+  has_many(:requests)
 
   validates(:name, {:presence => true, :length => { :maximum => 50}})
   validates(:account_name, {:presence => true, :length => { :maximum => 50}})
@@ -13,6 +14,7 @@ class Kid < ActiveRecord::Base
   define_method(:balance) do
     self.transactions.sum(:amount).to_f
   end
+
 
 # not passing for whatever reason
 # private

@@ -2,11 +2,45 @@
 
 <h2>You have saved <%= @kid.balance %>!</h2>
 
+<h3>Pending Transactions</h3>
+
+<% if @requests.any?() %>
+<ul>
+  <% @requests.each() do |request| %>
+  <li><%= request.description %>&nbsp;&nbsp;&nbsp;&nbsp; $<%=request.amount %>&nbsp;&nbsp;&nbsp;&nbsp; PENDING </li>
+  <% end %>
+</ul>
+
+<% else %>
+<p> You have no withdrawal or deposit requests</p>
+<% end %>
+
+
+
+<h3>Request a Transaction</h3>
+
+
+<form id="form_id" action="/kid/<%= @kid.id %>/request" method="post">
+  <input type="hidden" name="kid_id" value="<%= @kid.id %>">
+  <input type="hidden" name="parent_id" value="<%= @kid.parent.id %>"
+  <p><select id="request_type" type="text" name="request_type">
+    <option value="deposit">Deposit</option>
+    <option value="withdrawal">Withdrawal</option>
+  </select>Select transaction type</p>
+  <label for="amount">Enter transaction amount: $</label>
+  <input type="text" name="amount">
+  <p><label for="description">Enter description:</label>
+    <input type="text" name="description"></p>
+    <button type='submit'>Add request</button>
+  </form>
+
+
+
 <h3>Transaction History</h3>
 
 <ul>
   <% @transactions.each() do |transaction| %>
-  <li><%= transaction.date %>&nbsp;&nbsp;&nbsp;&nbsp;<%= transaction.transaction_type %>&nbsp;&nbsp;&nbsp;&nbsp;<%= transaction.amount %>&nbsp;&nbsp;&nbsp;&nbsp;<%= transaction.description %></li>
+  <li><%= transaction.date %>&nbsp;&nbsp;&nbsp;&nbsp;<%= transaction.transaction_type %>&nbsp;&nbsp;&nbsp;&nbsp;$<%= transaction.amount %>&nbsp;&nbsp;&nbsp;&nbsp;<%= transaction.description %></li>
   <% end %>
 </ul>
 

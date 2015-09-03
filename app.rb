@@ -11,7 +11,6 @@ get ("/") do
   erb(:index)
 end
 
-
 #####Parents
 get('/parents') do
   @title = "Parent Login"
@@ -33,6 +32,7 @@ get('/parents/:id') do
   @parent = Parent.find(id)
   @kids = @parent.kids()
   @title = @parent.bank_name
+  @requests = @parent.requests
   erb(:parent)
 end
 
@@ -59,9 +59,6 @@ get('/parent/kids/:id') do
   erb(:parent_kid)
 end
 
-
-
-
 ######Kids
 
 get('/kid') do
@@ -76,10 +73,10 @@ get('/kid') do
     @@message = ""
     @kid = there.first
     @transactions = @kid.transactions
+    @requests = @kid.requests
       erb(:kid_info)
   end
 end
-
 
 post('/kids/:id') do
   id = params.fetch('id').to_i
@@ -90,12 +87,7 @@ post('/kids/:id') do
   date = params.fetch('date')
   transaction = Transaction.create(:transaction_type => transaction_type, :kid_id => kid.id, :amount => amount, :date => date, :description => description)
   redirect back
-
 end
-
-
-
-
 
 ##### Chores
 
@@ -113,7 +105,6 @@ post('/parent/:id/chores') do
   pay = params.fetch('pay').to_f
   chore = Chore.create({:description => description, :pay => pay, :kid_id => nil, :parent_id => id, :available => true, :complete => false})
   redirect back
-
 end
 
 get('/kid_chores/:id') do
@@ -148,5 +139,30 @@ patch('/parent/:id/pay_kid') do
   new_transaction = Transaction.create({:amount => amount, :transaction_type => 'deposit', :description => description, :date => Date.today, :kid_id => kid_id })
   chore.destroy
   redirect back
+end
 
+######Requests
+
+##kid request form
+post('/kid/:id/request') do
+  kid_id = params.fetch('kid_id').to_i
+  parent_id = params.fetch('parent_id').to_i
+  request_type = params.fetch('request_type')
+  amount = params.fetch('amount').to_f
+  description = params.fetch('description')
+  request = Request.create({:request_type => request_type, :amount => amount, :description => description, :kid_id => kid_id, :parent_id => parent_id})
+  redirect back
+end
+
+post('/parent/:id/request') do
+  kid_id = params.fetch('kid_id').to_i
+  transaction_type = params.fetch('transaction_type')
+  description = params.fetch('description')
+  amount = params.fetch('amount').to_f
+  date = Date.today
+  new_transaction = Transaction.create({:amount => amount, :transaction_type => transaction_type, :description => description, :date => date, :kid_id => kid_id })
+  request_id = params.fetch('request_id').to_i
+  request = Request.find(request_id)
+  request.destroy
+  redirect back
 end

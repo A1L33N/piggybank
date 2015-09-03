@@ -31,6 +31,45 @@
     <% end %>
   </div>
 
+
+
+<h3>Pending transaction requests</h3>
+
+  <% if @requests.any?() %>
+    <ul>
+      <% @requests.each() do |request| %>
+        <% kid_id = request.kid_id.to_i %>
+        <% kid = Kid.find(kid_id) %>
+        <% parent_id = request.parent_id.to_i %>
+        <% parent = Parent.find(parent_id) %>
+        <li><%= kid.name %>&nbsp;&nbsp;&nbsp;&nbsp;<%= request.request_type %>&nbsp;&nbsp;&nbsp;&nbsp; <%=request.description %>&nbsp;&nbsp;&nbsp;&nbsp; $<%= request.amount %>
+          <form id="form_id" action="/parent/<%=parent.id%>/request" method="post">
+            <input type="hidden" name="request_id" value="<%=request.id %>">
+            <input type="hidden" name="amount" value="<%=request.amount %>">
+            <input type="hidden" name="transaction_type" value="<%=request.request_type %>">
+            <input type="hidden" name="description" value="<%=request.description %>">
+            <input type="hidden" name="kid_id" value="<%=request.kid_id %>">
+            <button type="submit">Approve transaction</button>
+          </form>
+
+
+
+        </li>
+      <% end %>
+    </ul>
+
+  <% else %>
+    No pending transaction requests
+  <% end %>
+
+
+
+
+
+
+
+
+
   <div class="form_div">
 
 
