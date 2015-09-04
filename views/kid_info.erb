@@ -44,6 +44,7 @@
     <button type='submit'>Add request</button>
   </form>
 
+<h3 class="kid_font">Chores</h3>
 <table class="table">
   <thead>
     <tr>
@@ -58,9 +59,6 @@
   <tr>
      <td><%= chore.description %></td>
      <td class="money"><%= '%.2f' % chore.pay %></td>
-
-
-<h3 class="kid_font">Chores</h3>
 
      <% if (chore.kid_id.nil?) == false && (chore.kid.id.> 0) %>
      <td class="cell_center"><%= chore.kid.name %></td>
