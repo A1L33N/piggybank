@@ -46,9 +46,9 @@
 
 <h3>Pending Transactions</h3>
 
-<% if @requests.any?() %>
+<% if @kid.requests.any?() %>
 <ul>
-  <% @requests.each() do |request| %>
+  <% @kid.requests.each() do |request| %>
   <li><%= request.description %>&nbsp;&nbsp;&nbsp;&nbsp; $<%=request.amount %>&nbsp;&nbsp;&nbsp;&nbsp; PENDING </li>
   <% end %>
 </ul>
