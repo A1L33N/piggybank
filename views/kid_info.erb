@@ -79,7 +79,23 @@
     <button type='submit'>Add request</button>
   </form>
 
+
 <h3 class="kid_font">Piggybank History</h3>
+
+<h3>Pending Transactions</h3>
+
+<% if @kid.requests.any?() %>
+<ul>
+  <% @kid.requests.each() do |request| %>
+  <li><%= request.description %>&nbsp;&nbsp;&nbsp;&nbsp; $<%=request.amount %>&nbsp;&nbsp;&nbsp;&nbsp; PENDING </li>
+  <% end %>
+</ul>
+
+<% else %>
+<p> You have no withdrawal or deposit requests</p>
+<% end %>
+
+
 <table class="table">
   <thead>
     <tr>
