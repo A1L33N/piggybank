@@ -36,7 +36,7 @@
 
 <h3>Pending Transactions</h3>
 
-<% if @requests.any?() %>
+<% if @kid.requests.any?() %>
 
   <table class="table">
     <thead>
@@ -47,7 +47,7 @@
       </tr>
     </thead>
     <tbody>
-    <% @requests.each() do |request| %>
+    <% @kid.requests.each() do |request| %>
     <tr>
        <td><%= request.description %></td>
        <td class="money"><%= request.amount %></td>
