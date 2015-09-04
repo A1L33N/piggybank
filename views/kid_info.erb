@@ -56,25 +56,6 @@
 <% end %>
 
 
-
-<h3>Request a Transaction</h3>
-
-
-<form id="form_id" action="/kid/<%= @kid.id %>/request" method="post">
-  <input type="hidden" name="kid_id" value="<%= @kid.id %>">
-  <input type="hidden" name="parent_id" value="<%= @kid.parent.id %>"
-  <p><select id="request_type" type="text" name="request_type">
-    <option value="deposit">Deposit</option>
-    <option value="withdrawal">Withdrawal</option>
-  </select>Select transaction type</p>
-  <label for="amount">Enter transaction amount: $</label>
-  <input type="text" name="amount">
-  <p><label for="description">Enter description:</label>
-    <input type="text" name="description"></p>
-    <button type='submit'>Add request</button>
-  </form>
-
-
      <% if (chore.kid_id.nil?) == false && (chore.kid.id.> 0) %>
      <td class="cell_center"><%= chore.kid.name %></td>
         <% if (chore.kid_id == @kid.id && chore.complete != true) %>
