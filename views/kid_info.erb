@@ -27,34 +27,6 @@
 
 <h3 class="kid_font">Chores</h3>
 
-<!-- <h1>Here are <%= @kid.parent.bank_name %> available chores</h1>
-
-<% if @chores.any? %>
-
-  <% @chores.each() do |chore| %>
-    <% if chore.available() %>
-    <li><%=chore.description%>&nbsp;&nbsp;&nbsp;&nbsp;<%=chore.pay%></li>
-
-    <form  action='/parent/<%=@kid.parent.id%>/assign_chores' method="post">
-      <input type="hidden" name="_method" value="patch">
-      <input type="hidden" name="kid_id" value="<%=@kid.id%>">
-      <input type="hidden" name="chore_id" value="<%=chore.id%>">
-      <button type="submit">Sign up for this chore</button>
-
-    </form></li>
-
-
-
-    <% end %>
-  <%end%>
-<% else %>
-  <h3>No available chores</h3>
-<% end %>
-
-
-<h2>Here are the chores you have signed up for, <%=@kid.name %>:</h2> -->
-
-
 <table class="table">
   <thead>
     <tr>
@@ -107,17 +79,6 @@
     <input type="text" name="description"></p>
     <button type='submit'>Add request</button>
   </form>
-
-
-
-<h3>Transaction History</h3>
-
-<ul>
-  <% @transactions.each() do |transaction| %>
-  <li><%= transaction.date %>&nbsp;&nbsp;&nbsp;&nbsp;<%= transaction.transaction_type %>&nbsp;&nbsp;&nbsp;&nbsp;$<%= transaction.amount %>&nbsp;&nbsp;&nbsp;&nbsp;<%= transaction.description %></li>
-  <% end %>
-</ul>
->>>>>>> master
 
 
      <% if (chore.kid_id.nil?) == false && (chore.kid.id.> 0) %>
