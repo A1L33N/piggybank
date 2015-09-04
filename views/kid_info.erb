@@ -40,14 +40,8 @@
   <% @kid.parent.chores.each() do |chore| %>
   <tr>
      <td><%= chore.description %></td>
-     <!-- <td> <% if chore.available == true %>
-          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-          <% else %>
-          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          <% end %>
-       </td> -->
      <td class="money"><%= '%.2f' % chore.pay %></td>
-=======
+
 <h3>Pending Transactions</h3>
 
 <% if @requests.any?() %>
