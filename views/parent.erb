@@ -48,27 +48,45 @@
 <h3>Pending transaction requests</h3>
 
   <% if @requests.any?() %>
-    <ul>
-      <% @requests.each() do |request| %>
-        <% kid_id = request.kid_id.to_i %>
-        <% kid = Kid.find(kid_id) %>
-        <% parent_id = request.parent_id.to_i %>
-        <% parent = Parent.find(parent_id) %>
-        <li><%= kid.name %>&nbsp;&nbsp;&nbsp;&nbsp;<%= request.request_type %>&nbsp;&nbsp;&nbsp;&nbsp; <%=request.description %>&nbsp;&nbsp;&nbsp;&nbsp; $<%= request.amount %>
-          <form id="form_id" action="/parent/<%=parent.id%>/request" method="post">
-            <input type="hidden" name="request_id" value="<%=request.id %>">
-            <input type="hidden" name="amount" value="<%=request.amount %>">
-            <input type="hidden" name="transaction_type" value="<%=request.request_type %>">
-            <input type="hidden" name="description" value="<%=request.description %>">
-            <input type="hidden" name="kid_id" value="<%=request.kid_id %>">
-            <button type="submit">Approve transaction</button>
-          </form>
-
-
-
-        </li>
-      <% end %>
-    </ul>
+     <ul>
+ <table class="table">
+        <thead>
+          <tr>
+            <th>Kid Name</th>
+            <th>
+              Request Type
+            </th>
+             <th>Description</th>
+             <th>Amount</th>
+             <th>Status</th>
+             <th>
+              Pay
+             </th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @requests.each() do |request| %>
+        <tr>
+          <td><%= request.kid.name %></td>
+          <td>
+            <%= request.request_type %>
+          </td>
+           <td><%= request.description %></td>
+           <td class="money"><%= request.amount %></td>
+           <td class="cell_center">PENDING</td>
+         <td>
+           <form id="form_id" action="/parent/<%=@parent.id%>/request" method="post">
+             <input type="hidden" name="request_id" value="<%=request.id %>">
+             <input type="hidden" name="amount" value="<%=request.amount %>">
+             <input type="hidden" name="transaction_type" value="<%=request.request_type %>">
+             <input type="hidden" name="description" value="<%=request.description %>">
+             <input type="hidden" name="kid_id" value="<%=request.kid_id %>">
+             <button type="submit">Approve transaction</button>
+           </form>
+         </td>  </tr>
+          <% end %>
+      </tbody>
+      </table>
 
   <% else %>
     No pending transaction requests
